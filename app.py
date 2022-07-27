@@ -46,6 +46,7 @@ def extract_meetinginfo():
                     withPersonList.append(word)
 
     withPerson = withPerson.join(withPersonList)
+    title = 'Meet with ' + withPerson
     #print("withPerson: ", withPerson)
     ## End Parse for With Person
 
@@ -78,6 +79,13 @@ def extract_meetinginfo():
         meetingStartTime = parsedTime
         # set the default block to be 1 hour
         meetingEndTime = meetingStartTime + timedelta(hours=1)
+        meetingYear = meetingStartTime.year
+        meetingMonth = meetingStartTime.month
+        meetingDay = meetingStartTime.day
+        startTimeHour = meetingStartTime.hour
+        startTimeMin = meetingStartTime.minute
+        endTimeHour = meetingEndTime.hour
+        endTimeMin = meetingEndTime.minute
         #print("Meeting start time is: ", meetingStartTime)
         #print("Meeting end time is: ", meetingEndTime)
     elif (isinstance(parsedTime, list)):
@@ -122,15 +130,22 @@ def extract_meetinginfo():
                 endTimeMin = sortedParsedTimeList[1].minute
             # Now construct the start and end times in datetime format
             meetingStartTime = datetime.datetime(meetingYear, meetingMonth, meetingDay, startTimeHour, startTimeMin)
-            #print("Meeting start time is: ", meetingStartTime)
             meetingEndTime = datetime.datetime(meetingYear, meetingMonth, meetingDay, endTimeHour, endTimeMin)
-            #print("Meeting end time is: ", meetingEndTime)
+
+    startDate = str(meetingYear) + '-' + str(meetingMonth) + '-' + str(meetingDay)
+    startTime = str(startTimeHour) + ':' + str(startTimeMin)
+
+    endDate = str(meetingYear) + '-' + str(meetingMonth) + '-' + str(meetingDay)
+    endTime = str(endTimeHour) + ':' + str(endTimeMin)
 
     # Construct response json
     res = {
-        "meetwith": withPerson,
-        "meetstarttime": meetingStartTime,
-        "meetendtime": meetingEndTime
+        "Title": title,
+        "Start_Date": startDate,
+        "Start_Time": startTime,
+        "End_Date": endDate,
+        "End_Time": endTime
+
     }
     resp = jsonify(res)
     #print("type of resp is: ", type(resp))
