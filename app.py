@@ -132,6 +132,9 @@ def extract_meetinginfo():
             meetingStartTime = datetime.datetime(meetingYear, meetingMonth, meetingDay, startTimeHour, startTimeMin)
             meetingEndTime = datetime.datetime(meetingYear, meetingMonth, meetingDay, endTimeHour, endTimeMin)
 
+    startDateTimeIso = meetingStartTime.isoformat()
+    endDateTimeIso = meetingEndTime.isoformat()
+
     startDate = str(meetingYear) + '-' + str(meetingMonth) + '-' + str(meetingDay)
     startTime = str(startTimeHour) + ':' + str(startTimeMin)
 
@@ -144,8 +147,9 @@ def extract_meetinginfo():
         "Start_Date": startDate,
         "Start_Time": startTime,
         "End_Date": endDate,
-        "End_Time": endTime
-
+        "End_Time": endTime,
+        "Start_Date_Time": startDateTimeIso,
+        "End_Date_Time": endDateTimeIso
     }
     resp = jsonify(res)
     #print("type of resp is: ", type(resp))
