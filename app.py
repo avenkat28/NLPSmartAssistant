@@ -9,9 +9,12 @@ from datetime import timedelta
 
 from flask import Flask, jsonify, request
 from http import HTTPStatus
+from flask_cors import CORS, cross_origin
 
 
 app = Flask(__name__)
+cors = CORS(app , resources={r"/*": {"origins": "*", "allow_headers": "*", "expose_headers": "*"}})
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 @app.route('/')
 def hello_world():
