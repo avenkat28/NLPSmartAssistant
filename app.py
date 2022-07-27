@@ -128,7 +128,10 @@ def extract_meetinginfo():
         "meetstarttime": meetingStartTime,
         "meetendtime": meetingEndTime
     }
-    return jsonify(res)
+    resp = jsonify(res)
+    #print("type of resp is: ", type(resp))
+    resp.headers.add('Access-Control-Allow-Origin', '*')
+    return resp
 
 
 if __name__ == '__main__':
