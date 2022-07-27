@@ -10,7 +10,7 @@ from datetime import timedelta
 from flask import Flask, jsonify, request
 from http import HTTPStatus
 from flask_cors import CORS, cross_origin
-
+from number_parser import parse
 
 app = Flask(__name__)
 cors = CORS(app , resources={r"/*": {"origins": "*", "allow_headers": "*", "expose_headers": "*"}})
@@ -24,7 +24,8 @@ def hello_world():
 def extract_meetinginfo():
     #msg = json.loads(request.data)
     data = request.get_json()
-    msgText = data.get("message")
+    msgTextRaw = data.get("message")
+    msgText = parse(msgTextRaw)
 
     ## Start parse for With Person
     patternForWith = r"with\s+(\w+)\s?(\w+)?"
